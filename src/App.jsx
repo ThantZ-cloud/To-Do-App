@@ -1,13 +1,10 @@
-import {useState, useRef} from 'react';
-function Item({name}){
-  return <ul>
-    <li>{name}</li>
-  </ul>
-}
-
+import {useState} from 'react';
+import Item from './Item';
+import Header from './Header';
+import Form from './Form';
 
 export default function App(){
-  const inputRef = useRef();
+  
    let [data , setData] = useState([
     {id:4, name: "Apple", done: true},
     {id:3, name: "Orange", done: false},
@@ -15,26 +12,19 @@ export default function App(){
     {id:1, name: "Egg", done: true},
   ]);
   
-
-const add = () => {
-  let id = data[0].id + 1;
-  let name = inputRef.current.value;
+const add = name => {
+  let id = data[0] ? data[0].id + 1: 1;
   setData([{id, name, done: false}, ...data]);
+}
+const del = id => {
+  setData(data.filter(item => item.id != id))
 }
 
   return <div>
-      <h1>Hello React</h1>
-      <form onSubmit={e => {
-        e.preventDefault();
-        add();
-        e.currentTarget.reset();
-      }
-      }>
-        <input type='text' ref={inputRef} />
-        <button type='submit'>ADD</button>
-      </form>
+      <Header count={data.length}/> 
+      <Form add={add}/>
       
-      {data.map(item => <Item key={item.id} name={item.name}/> )}
+      {data.map(item => <Item key={item.id} item={item} del={del}/> )}
     </div>
 
 }
