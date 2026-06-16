@@ -2,6 +2,7 @@ import {useState} from 'react';
 import Item from './Item';
 import Header from './Header';
 import Form from './Form';
+import { Container, List } from '@mui/material';
 
 export default function App(){
   
@@ -22,9 +23,12 @@ const del = id => {
 
   return <div>
       <Header count={data.length}/> 
-      <Form add={add}/>
-      
-      {data.map(item => <Item key={item.id} item={item} del={del}/> )}
+      <Container maxWidth='sm' sx={{mt: 4}}>
+        <Form add={add}/>
+        <List>
+          {data.map(item => <Item key={item.id} item={item} del={del}/> )}
+        </List>
+      </Container>
     </div>
 
 }
